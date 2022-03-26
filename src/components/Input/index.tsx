@@ -2,7 +2,7 @@ import {
   useEffect,
   useState,
   useCallback,
-  createRef,
+  useRef,
 } from 'react';
 
 import { useField } from '@unform/core';
@@ -17,7 +17,7 @@ interface InputProps {
 }
 
 export function Input({ name, icon: Icon, ...rest }: InputProps): JSX.Element {
-  const inputRef = createRef<HTMLInputElement>();
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const [isFocused, setIsFocused] = useState(false);
   const [isFilled, setIsFilled] = useState(false);
