@@ -13,7 +13,7 @@
     <img alt="Stargazers" src="https://img.shields.io/github/stars/bfukumori/go-restaurant?style=social">
   </a>
 
-  <a href="https://bfukumori.github.io/go-restaurant/">
+  <a href="https://eloquent-semolina-5a2d6e.netlify.app/">
     <img alt="go-restaurant" src="https://img.shields.io/badge/go-restaurant-%237159c1?style=flat&logo=ghost">
     </a>
  
