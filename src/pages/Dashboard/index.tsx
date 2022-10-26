@@ -22,13 +22,19 @@ export function Dashboard(): JSX.Element {
   const [modalOpen, setModalOpen] = useState(false);
   const [editModalOpen, setEditModalOpen] = useState(false);
 
+  console.log(foods);
+
   useEffect(() => {
     async function fetchData() {
-      const response = await api.get('/foods');
+      const response = await api.get('/foods', {
+        params: {
+          limit: 5,
+        },
+      });
       setFoods(response.data);
     }
     fetchData();
-  }, [])
+  }, []);
 
   const handleAddFood = async (food: FoodData) => {
     try {
@@ -37,28 +43,28 @@ export function Dashboard(): JSX.Element {
         available: true,
       });
 
-      setFoods([...foods, response.data]);
+      setFoods((state) => [...state, { ...response.data, price: food.price }]);
     } catch (err) {
       console.log(err);
     }
-  }
+  };
 
   const handleUpdateFood = async (food: FoodData) => {
     try {
-      const foodUpdated = await api.put(
-        `/foods/${editingFood.id}`,
-        { ...editingFood, ...food },
-      );
+      const foodUpdated = await api.put(`/foods/${editingFood.id}`, {
+        ...editingFood,
+        ...food,
+      });
 
-      const foodsUpdated = foods.map(f =>
-        f.id !== foodUpdated.data.id ? f : foodUpdated.data,
+      const foodsUpdated = foods.map((f) =>
+        f.id !== foodUpdated.data.id ? f : foodUpdated.data
       );
 
       setFoods(foodsUpdated);
     } catch (err) {
       console.log(err);
     }
-  }
+  };
 
   const handleDeleteFood = async (id: number) => {
     await api.delete(`/foods/${id}`);
@@ -66,21 +72,20 @@ export function Dashboard(): JSX.Element {
     const foodsFiltered = foods.filter((food: FoodData) => food.id !== id);
 
     setFoods(foodsFiltered);
-  }
+  };
 
   const toggleModal = () => {
     setModalOpen(!modalOpen);
-  }
+  };
 
   const toggleEditModal = () => {
     setEditModalOpen(!editModalOpen);
-  }
+  };
 
   const handleEditFood = (food: FoodData) => {
     setEditingFood(food);
     setEditModalOpen(true);
-  }
-
+  };
 
   return (
     <>
@@ -97,9 +102,9 @@ export function Dashboard(): JSX.Element {
         handleUpdateFood={handleUpdateFood}
       />
 
-      <FoodsContainer data-testid="foods-list">
+      <FoodsContainer data-testid='foods-list'>
         {foods &&
-          foods.map(food => (
+          foods.map((food) => (
             <Food
               key={food.id}
               food={food}
