@@ -7,11 +7,15 @@ import { FoodData } from '../../pages/Dashboard';
 
 interface FoodProps {
   food: FoodData;
-  handleDelete: (id: number) => void;
+  handleDeleteFood: (id: number) => void;
   handleEditFood: (food: FoodData) => void;
 }
 
-export function Food({ food, handleDelete, handleEditFood }: FoodProps): JSX.Element {
+export function Food({
+  food,
+  handleDeleteFood,
+  handleEditFood,
+}: FoodProps): JSX.Element {
   const [isAvailable, setIsAvailable] = useState(food.available);
 
   const toggleAvailable = async () => {
@@ -21,29 +25,29 @@ export function Food({ food, handleDelete, handleEditFood }: FoodProps): JSX.Ele
     });
 
     setIsAvailable(!isAvailable);
-  }
+  };
 
   const setEditingFood = () => {
     handleEditFood(food);
-  }
+  };
 
   return (
     <Container available={isAvailable}>
       <header>
         <img src={food.image} alt={food.name} />
       </header>
-      <section className="body">
+      <section className='body'>
         <h2>{food.name}</h2>
         <p>{food.description}</p>
-        <p className="price">
+        <p className='price'>
           R$ <b>{food.price}</b>
         </p>
       </section>
-      <section className="footer">
-        <div className="icon-container">
+      <section className='footer'>
+        <div className='icon-container'>
           <button
-            type="button"
-            className="icon"
+            type='button'
+            className='icon'
             onClick={setEditingFood}
             data-testid={`edit-food-${food.id}`}
           >
@@ -51,27 +55,27 @@ export function Food({ food, handleDelete, handleEditFood }: FoodProps): JSX.Ele
           </button>
 
           <button
-            type="button"
-            className="icon"
-            onClick={() => handleDelete(food.id)}
+            type='button'
+            className='icon'
+            onClick={() => handleDeleteFood(food.id)}
             data-testid={`remove-food-${food.id}`}
           >
             <FiTrash size={20} />
           </button>
         </div>
 
-        <div className="availability-container">
+        <div className='availability-container'>
           <p>{isAvailable ? 'Disponível' : 'Indisponível'}</p>
 
-          <label htmlFor={`available-switch-${food.id}`} className="switch">
+          <label htmlFor={`available-switch-${food.id}`} className='switch'>
             <input
               id={`available-switch-${food.id}`}
-              type="checkbox"
+              type='checkbox'
               checked={isAvailable}
               onChange={toggleAvailable}
               data-testid={`change-status-food-${food.id}`}
             />
-            <span className="slider" />
+            <span className='slider' />
           </label>
         </div>
       </section>

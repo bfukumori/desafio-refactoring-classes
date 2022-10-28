@@ -22,14 +22,6 @@ export function Dashboard(): JSX.Element {
   const [modalOpen, setModalOpen] = useState(false);
   const [editModalOpen, setEditModalOpen] = useState(false);
 
-  useEffect(() => {
-    async function fetchData() {
-      const response = await api.get('/foods');
-      setFoods(response.data);
-    }
-    fetchData();
-  }, []);
-
   const handleAddFood = async (food: FoodData) => {
     try {
       const response = await api.post('/foods', {
@@ -62,9 +54,7 @@ export function Dashboard(): JSX.Element {
 
   const handleDeleteFood = async (id: number) => {
     await api.delete(`/foods/${id}`);
-
     const foodsFiltered = foods.filter((food: FoodData) => food.id !== id);
-
     setFoods(foodsFiltered);
   };
 
@@ -80,6 +70,14 @@ export function Dashboard(): JSX.Element {
     setEditingFood(food);
     setEditModalOpen(true);
   };
+
+  useEffect(() => {
+    async function fetchData() {
+      const response = await api.get('/foods');
+      setFoods(response.data);
+    }
+    fetchData();
+  }, []);
 
   return (
     <>
@@ -102,7 +100,7 @@ export function Dashboard(): JSX.Element {
             <Food
               key={food.id}
               food={food}
-              handleDelete={handleDeleteFood}
+              handleDeleteFood={handleDeleteFood}
               handleEditFood={handleEditFood}
             />
           ))}
