@@ -22,15 +22,9 @@ export function Dashboard(): JSX.Element {
   const [modalOpen, setModalOpen] = useState(false);
   const [editModalOpen, setEditModalOpen] = useState(false);
 
-  console.log(foods);
-
   useEffect(() => {
     async function fetchData() {
-      const response = await api.get('/foods', {
-        params: {
-          limit: 5,
-        },
-      });
+      const response = await api.get('/foods');
       setFoods(response.data);
     }
     fetchData();
@@ -43,7 +37,7 @@ export function Dashboard(): JSX.Element {
         available: true,
       });
 
-      setFoods((state) => [...state, { ...response.data, price: food.price }]);
+      setFoods((state) => [...state, response.data]);
     } catch (err) {
       console.log(err);
     }
